@@ -12,6 +12,7 @@
 /* 
  *  libss7 implementation for China No.7
  *  Written by LiFeng < felixlee868@icloud.com>
+ *  Date Jun 1, 2016
  *  Copyright (C) 2016  By LiFeng 
  *  All Rights Reserved
  */
