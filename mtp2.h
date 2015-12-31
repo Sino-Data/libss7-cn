@@ -9,6 +9,14 @@
  * All Rights Reserved.
  */
 
+/* 
+ *  libss7 implementation for China No.7
+ *  Written by LiFeng < felixlee868@icloud.com>
+ *  Date Jun 1, 2016
+ *  Copyright (C) 2016  By LiFeng 
+ *  All Rights Reserved
+ */
+
 /*
  * See http://www.asterisk.org for more information about
  * the Asterisk project. Please do not directly contact
@@ -50,6 +58,15 @@
 #define ITU_TIMER_T4_NORMAL		8500
 #define ITU_TIMER_T4_EMERGENCY	500
 #define ITU_TIMER_T7			1250
+
+/* For CHINA links */
+#define CHINA_TIMER_T1			45000
+#define CHINA_TIMER_T2			132000
+#define CHINA_TIMER_T3			1500
+#define CHINA_TIMER_T4_NORMAL		8200
+#define CHINA_TIMER_T4_EMERGENCYL	500
+#define CHINA_TIMER_T7			1250
+
 
 /* For ANSI links */
 #define ANSI_TIMER_T1			16000
