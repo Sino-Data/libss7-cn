@@ -9,6 +9,13 @@
  * All Rights Reserved.
  */
 
+/* 
+ *  libss7 implementation for China No.7
+ *  Written by LiFeng < felixlee868@icloud.com>
+ *  Copyright (C) 2016  By LiFeng 
+ *  All Rights Reserved
+ */
+
 /*
  * See http://www.asterisk.org for more information about
  * the Asterisk project. Please do not directly contact
@@ -109,6 +116,7 @@
 /* Different SS7 types */
 #define SS7_ITU		(1 << 0)
 #define SS7_ANSI	(1 << 1)
+#define SS7_CHINA	(1 << 3)
 
 /* Debug levels */
 #define SS7_DEBUG_MTP2	(1 << 0)
