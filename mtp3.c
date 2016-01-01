@@ -371,6 +371,8 @@ static void std_test_send(struct mtp2 *link)
 	set_h1(layer4, 1);
 	if (ss7->switchtype == SS7_ANSI) {
 		layer4[1] = (testlen << 4) | (link->slc & 0xf);
+	} else if (ss7->switchtype == SS7_CHINA) {
+		layer4[1] = (testlen << 4) | (link->slc & 0xf);
 	} else {
 		layer4[1] = (testlen << 4);
 	}
@@ -979,6 +981,8 @@ static inline unsigned int pc2int(unsigned int switchtype, unsigned char *p)
 {
 	/* from get_routinglabel() */
 	if (switchtype == SS7_ANSI) {
+		return  p[0] | (p[1] << 8) | (p[2] << 16);
+	} else if (switchtype == SS7_CHINA) {
 		return  p[0] | (p[1] << 8) | (p[2] << 16);
 	} else {
 		return (p[0] | (p[1] << 8)) & 0x3fff;
