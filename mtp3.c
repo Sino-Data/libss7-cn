@@ -98,6 +98,11 @@ static int get_routinglabel(unsigned int switchtype, unsigned char *sif, struct 
 		rl->opc = buf[3] | (buf[4] << 8) | (buf[5] << 16);
 		rl->sls = buf[6];
 		return 7;
+	} else if (switchtype == SS7_CHINA) { /* CHINA style */
+		rl->dpc = buf[0] | (buf[1] << 8) | (buf[2] << 16);
+		rl->opc = buf[3] | (buf[4] << 8) | (buf[5] << 16);
+		rl->sls = buf[6];
+		return 7;
 	} else { /* ITU style */
 		/* more complicated.  Stupid ITU with their programmer unfriendly point codes. */
 		rl->dpc = (buf[0] | (buf[1] << 8)) & 0x3fff; /* 14 bits long */
