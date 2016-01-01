@@ -2359,12 +2359,16 @@ static FUNC_DUMP(call_ref_dump)
 	callr = parm[0] | (parm[1] << 8) | (parm[2] << 16);
 	if (ss7->switchtype == SS7_ANSI) {
 		ptc = parm[3] | (parm[4] << 8) | (parm[5] << 16);
+	} else if (ss7->switchtype == SS7_CHINA) {
+		ptc = parm[3] | (parm[4] << 8) | (parm[5] << 16);
 	} else {
 		ptc = parm[3] | (parm[4] << 8);
 	}
 
 	ss7_message(ss7, "\t\t\tCall identity: %d\n", callr);
 	if (ss7->switchtype == SS7_ANSI) {
+		ss7_message(ss7, "\t\t\tPC: Net-CLstr-Mbr: %d-%d-%d\n",(ptc >> 16) & 0xff, (ptc >> 8) & 0xff, ptc & 0xff);
+	} else if (ss7->switchtype == SS7_CHINA) {
 		ss7_message(ss7, "\t\t\tPC: Net-CLstr-Mbr: %d-%d-%d\n",(ptc >> 16) & 0xff, (ptc >> 8) & 0xff, ptc & 0xff);
 	} else {
 		ss7_message(ss7, "\t\t\tPC: 0x%x\n", ptc);
@@ -2377,6 +2381,14 @@ static FUNC_SEND(call_ref_transmit)
 {
 	if (c->call_ref_ident) {
 		if (ss7->switchtype == SS7_ANSI) {
+			parm[0] = c->call_ref_ident & 0xff;
+			parm[1] = (c->call_ref_ident >> 8) & 0xff;
+			parm[2] = (c->call_ref_ident >> 16) & 0xff;
+			parm[3] = c->call_ref_pc & 0xff;
+			parm[4] = (c->call_ref_pc >> 8) & 0xff;
+			parm[5] = (c->call_ref_pc >> 16) & 0xff;
+			return 6;
+		} else if (ss7->switchtype == SS7_CHINA) {
 			parm[0] = c->call_ref_ident & 0xff;
 			parm[1] = (c->call_ref_ident >> 8) & 0xff;
 			parm[2] = (c->call_ref_ident >> 16) & 0xff;
@@ -2399,6 +2411,9 @@ static FUNC_SEND(call_ref_transmit)
 static FUNC_RECV(call_ref_receive)
 {
 	if (ss7->switchtype == SS7_ANSI) {
+		c->call_ref_ident = parm[0] | (parm[1] << 8) | (parm[2] << 16);
+		c->call_ref_pc = parm[3] | (parm[4] << 8) | (parm[5] << 16);
+	} else if (ss7->switchtype == SS7_CHINA) {
 		c->call_ref_ident = parm[0] | (parm[1] << 8) | (parm[2] << 16);
 		c->call_ref_pc = parm[3] | (parm[4] << 8) | (parm[5] << 16);
 	} else {
@@ -2798,6 +2813,8 @@ static void isup_init_call(struct ss7 *ss7, struct isup_call *c, int cic, unsign
 	c->cic = cic;
 	c->dpc = dpc;
 	if (ss7->switchtype == SS7_ANSI) {
+		c->sls = ansi_sls_next(ss7);
+	} else if (ss7->switchtype == SS7_CHINA) {
 		c->sls = ansi_sls_next(ss7);
 	} else {
 		c->sls = cic & 0xf;
@@ -3240,6 +3257,20 @@ static int isup_send_message(struct ss7 *ss7, struct isup_call *c, int messagety
 	optparams = messages[ourmessage].opt_params;
 	priority = messages[ourmessage].ansi_priority;
 
+	/* Again, the CHINA exception */
+	if (ss7->switchtype == SS7_CHINA) {
+		if (messages[ourmessage].messagetype == ISUP_IAM) {
+			fixedparams = 3;
+			varparams = 2;
+		} else if (messages[ourmessage].messagetype == ISUP_RLC) {
+			optparams = 0;
+		} else if (messages[ourmessage].messagetype == ISUP_GRS) {
+			optparams = 1;
+		} else if (messages[ourmessage].messagetype == ISUP_GRA) {
+			optparams = 1;
+		}
+	}
+
 	/* Again, the ANSI exception */
 	if (ss7->switchtype == SS7_ANSI) {
 		if (messages[ourmessage].messagetype == ISUP_IAM) {
@@ -3371,6 +3402,18 @@ int isup_dump(struct ss7 *ss7, struct mtp2 *link, unsigned char *buf, int len)
 	varparams = messages[ourmessage].mand_var_params;
 	parms = messages[ourmessage].param_list;
 	optparams = messages[ourmessage].opt_params;
+
+	if (ss7->switchtype == SS7_CHINA) {
+		/* Check for the CHINA IAM exception */
+		if (messages[ourmessage].messagetype == ISUP_IAM) {
+			/* Stupid CHINA SS7, they just had to be different, didn't they? */
+			fixedparams = 3;
+			varparams = 2;
+			parms = ansi_iam_params;
+		} else if (messages[ourmessage].messagetype == ISUP_RLC) {
+			optparams = 0;
+		}
+	}
 
 	if (ss7->switchtype == SS7_ANSI) {
 		/* Check for the ANSI IAM exception */
