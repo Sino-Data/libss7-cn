@@ -378,7 +378,7 @@ struct ss7 *ss7_new(int switchtype)
 	struct ss7 *s;
 	int x;
 
-	if (((switchtype != SS7_ITU) && (switchtype != SS7_ANSI)) || !(s = calloc(1, sizeof(struct ss7)))) {
+	if (((switchtype != SS7_ITU) && (switchtype != SS7_CHINA) &&  (switchtype != SS7_ANSI)) || !(s = calloc(1, sizeof(struct ss7)))) {
 		return NULL;
 	}
 
@@ -620,7 +620,7 @@ void ss7_show_linkset(struct ss7 *ss7, ss7_printf_cb cust_printf, int fd)
 
 	ss7_pc_to_str(ss7->switchtype, ss7->pc, pc_str);
 
-	cust_printf(fd, "Switch type: %s\n", (ss7->switchtype == SS7_ITU) ? "ITU" : "ANSI");
+	cust_printf(fd, "Switch type: %s\n", (ss7->switchtype == SS7_ITU) ? "ITU" : "ANSI(CHINA)");
 	cust_printf(fd, "Our point code: %s\n", pc_str);
 	cust_printf(fd, "SLS shift: %i\n", ss7->sls_shift);
 	cust_printf(fd, "numlinks: %i\n", ss7->numlinks);
