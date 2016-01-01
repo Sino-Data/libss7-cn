@@ -117,7 +117,7 @@
 /* Different SS7 types */
 #define SS7_ITU		(1 << 0)
 #define SS7_ANSI	(1 << 1)
-#define SS7_CHINA	(1 << 3)
+#define SS7_CHINA	(1 << 2)
 
 /* Debug levels */
 #define SS7_DEBUG_MTP2	(1 << 0)
