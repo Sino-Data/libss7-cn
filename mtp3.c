@@ -140,6 +140,15 @@ int set_routinglabel(unsigned char *sif, struct routing_label *rl)
 {
 	unsigned char *buf = sif;
 	switch (rl->type) {
+		case SS7_CHINA: /* CHINA NO.7 */
+			buf[0] = rl->dpc & 0xff;
+			buf[1] = (rl->dpc >> 8) & 0xff;
+			buf[2] = (rl->dpc >> 16) & 0xff;
+			buf[3] = rl->opc & 0xff;
+			buf[4] = (rl->opc >> 8) & 0xff;
+			buf[5] = (rl->opc >> 16) & 0xff;
+			buf[6] = rl->sls & 0xff;
+			return 7;
 		case SS7_ANSI: /* Cake */
 			buf[0] = rl->dpc & 0xff;
 			buf[1] = (rl->dpc >> 8) & 0xff;
