@@ -818,6 +818,13 @@ struct mtp2 * mtp2_new(int fd, unsigned int switchtype)
 		new->timers.t4 = ITU_TIMER_T4_NORMAL;
 		new->timers.t4e = ITU_TIMER_T4_EMERGENCY;
 		new->timers.t7 = ITU_TIMER_T7;
+	} else if (switchtype == SS7_CHINA) {
+		new->timers.t1 = CHINA_TIMER_T1;
+		new->timers.t2 = CHINA_TIMER_T2;
+		new->timers.t3 = CHINA_TIMER_T3;
+		new->timers.t4 = CHINA_TIMER_T4_NORMAL;
+		new->timers.t4e = CHINA_TIMER_T4_EMERGENCY;
+		new->timers.t7 = CHINA_TIMER_T7;
 	} else if (switchtype == SS7_ANSI) {
 		new->timers.t1 = ANSI_TIMER_T1;
 		new->timers.t2 = ANSI_TIMER_T2;
