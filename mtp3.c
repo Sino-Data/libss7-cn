@@ -1721,6 +1721,8 @@ static int std_test_receive(struct ss7 *ss7, struct mtp2 *mtp2, struct routing_l
 		set_h1(layer4, 2);
 		if (ss7->switchtype == SS7_ANSI) {
 			layer4[1] = (testpatsize << 4) | (mtp2->slc & 0xf);
+		} else if (ss7->switchtype == SS7_CHINA) {
+			layer4[1] = (testpatsize << 4) | (mtp2->slc & 0xf);
 		} else {
 			layer4[1] = (testpatsize << 4);
 		}
