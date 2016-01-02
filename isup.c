@@ -634,6 +634,12 @@ static FUNC_DUMP(calling_party_cat_dump)
 		case 5:
 			cattype = "Operator, Spanish";
 			break;
+		case 6:
+			cattype = "Operator, Chinese";
+			break;
+		case 7:
+			cattype = "Operator, Japanese";
+			break;
 		case 9:
 			cattype = "Reserved";
 			break;
