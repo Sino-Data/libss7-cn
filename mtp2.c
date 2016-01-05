@@ -9,6 +9,15 @@
  * All Rights Reserved.
  */
 
+/* 
+ *  libss7 implementation for China No.7
+ *  Written by LiFeng < felixlee868@icloud.com>
+ *  Date Jun 5, 2016
+ *  Copyright (C) 2016  By LiFeng 
+ *  All Rights Reserved
+ */
+
+
 /*
  * See http://www.asterisk.org for more information about
  * the Asterisk project. Please do not directly contact
