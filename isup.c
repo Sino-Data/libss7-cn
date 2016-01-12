@@ -647,10 +647,12 @@ static FUNC_DUMP(calling_party_cat_dump)
 			cattype = "Operator, Chinese";
 			break;
 		case 7:
+			cattype = "Operator Promise";
+		case 8:
 			cattype = "Operator, Japanese";
 			break;
 		case 9:
-			cattype = "Reserved";
+			cattype = "Domestic Operator";
 			break;
 		case 10:
 			cattype = "Ordinary calling subscriber";
@@ -666,6 +668,9 @@ static FUNC_DUMP(calling_party_cat_dump)
 			break;
 		case 15:
 			cattype = "Payphone";
+			break;
+		case 16:
+			cattype = "Subscriber Free";
 			break;
 		default:
 			cattype = "Unknown";
