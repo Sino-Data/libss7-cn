@@ -1,3 +1,10 @@
+libss7_cn:
+=========
+libss7_cn is a userspace library that is used for providing SS7 protocol
+services to applications. This version add some changed which adapter to
+China SS7 standard which need used by Asterisk project.
+
+
 libss7:
 =======
 libss7 is a userspace library that is used for providing SS7 protocol
