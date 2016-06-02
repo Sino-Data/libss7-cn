@@ -705,6 +705,14 @@ static FUNC_SEND(transmission_medium_reqs_transmit)
 		return 0;
 	}
 
+	if (ss7->switchtype != SS7_CHINA) {
+		return 0;
+	}
+
+	if (ss7->switchtype != SS7_ANSI) {
+		return 0;
+	}
+
 	parm[0] = c->transcap;
 	return 1;
 }
